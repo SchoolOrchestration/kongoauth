@@ -36,21 +36,9 @@ REST_FRAMEWORK = {
 * `AUTH_REDIS_KEY`
 * `REDIS_CONN` # a dictionary with redis configs
 
-**Profit**
-
 ## Run the tests
 
 ```
 docker-compose run --rm web python example/manage.py test
 ```
 
-
-# API
-
-## `TransientUser`
-
-```
-user = TransientUser(id, groups, permissions)
-
-
-```

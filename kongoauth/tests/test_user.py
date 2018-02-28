@@ -39,8 +39,8 @@ class UserTestCase(TestCase):
 
         tests = [
             # input, expected result
-            (['foo','bar','baz'], True),
-            (['not a permission','bar','baz'], False),
+            (['foo','bar','baz'], True), # user has more permissions than list provided
+            (['not a permission','bar','baz'], False), # user has some permission, but is missing some
         ]
         for test_input, expected_result in tests:
             assert self.user.has_perms(test_input) == expected_result,\
