@@ -1,5 +1,5 @@
 from django.conf import settings
-
+from django.contrib.auth.models import AnonymousUser
 from rest_framework import authentication
 from .helpers import get_redis
 from .user import TransientUser
@@ -9,6 +9,8 @@ import json
 class KongOAuthAuthentication(authentication.BaseAuthentication):
 
     def authenticate(self, request):
+
+        ## note: this may need to be X_ (not HTTP_X_..) in real life:
         anonymous = request.META.get('HTTP_X_ANONYMOUS_CONSUMER', None)
         if not anonymous:
             user_id = request.META.get('HTTP_X_AUTHENTICATED-USERID', None)

@@ -3,29 +3,58 @@ from __future__ import unicode_literals
 from django.test import TestCase
 from django.test.client import RequestFactory
 from django.conf import settings
-from django.contrib.auth import get_user_model
+from django.contrib.auth.models import AnonymousUser
 
 from ..authentication import KongOAuthAuthentication
 from ..helpers import get_redis
+from ..user import TransientUser
+
 from .testutils import get_user_data
 
 import json
 
-class AuthenticationTestCase(TestCase):
+class AuthenticationSuccessTestCase(TestCase):
 
     def setUp(self):
         self.rf = RequestFactory()
         self.auth = KongOAuthAuthentication()
+        self.user_id = 1
 
-    def test_autenticate(self):
         headers = {
-            'HTTP_X_AUTHENTICATED-USERID': '1'
+            'HTTP_X_AUTHENTICATED-USERID': self.user_id
         }
         request = self.rf.get('/', **headers)
-        user = self.auth.authenticate(request)
+        self.user, self.result = self.auth.authenticate(request)
 
-    def test_anon_authenticate(self):
-        pass
+    def test_successfully_logs_in(self):
+        assert self.result is None
+
+    def test_autenticates_user(self):
+        assert self.user.id == self.user_id
+
+    def test_returns_transient_user(self):
+        assert isinstance(self.user, TransientUser)
+
+
+class AuthenticationFailureTestCase(TestCase):
+
+    def setUp(self):
+        self.rf = RequestFactory()
+        self.auth = KongOAuthAuthentication()
+        self.user_id = 1
+
+        headers = {
+            'HTTP_X_ANONYMOUS_CONSUMER': 'anon'
+        }
+        request = self.rf.get('/', **headers)
+        self.user, self.result = self.auth.authenticate(request)
+
+    def test_it_returns_an_anon_user(self):
+        assert isinstance(self.user, AnonymousUser)
+
+    def test_it_returns_logged_in_false(self):
+        assert self.result == False
+
 
 class AuthenticationUserSerializationTestCase(TestCase):
 
@@ -37,7 +66,6 @@ class AuthenticationUserSerializationTestCase(TestCase):
         self.auth = KongOAuthAuthentication()
 
     def test_it_gets_user_from_redis(self):
-
         result = self.auth.get_user(self.user_id)
 
 

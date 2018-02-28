@@ -34,7 +34,7 @@ REST_FRAMEWORK = {
 **Optional settings**
 
 * `AUTH_REDIS_KEY`
-* `REDIS_CONN`
+* `REDIS_CONN` # a dictionary with redis configs
 
 **Profit**
 
