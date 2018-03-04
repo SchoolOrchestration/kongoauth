@@ -9,4 +9,6 @@ services:
       - '8000:8000'
     volumes:
       - .:/code
+    links:
+      - redis
 

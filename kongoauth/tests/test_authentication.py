@@ -21,7 +21,7 @@ class AuthenticationSuccessTestCase(TestCase):
         self.user_id = 1
 
         headers = {
-            'HTTP_X_AUTHENTICATED-USERID': self.user_id
+            'HTTP_X_AUTHENTICATED_USERID': self.user_id
         }
         request = self.rf.get('/', **headers)
         self.user, self.result = self.auth.authenticate(request)

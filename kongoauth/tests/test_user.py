@@ -8,6 +8,7 @@ from ..user import TransientUser
 
 import json
 
+
 class UserTestCase(TestCase):
 
     def setUp(self):

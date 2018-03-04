@@ -1,12 +1,16 @@
 import json
+
+
 def get_logged_in_headers():
     pass
+
 
 def get_anon_headers(self):
     pass
 
+
 def get_user_data(user_id, orgs = None, groups = None):
-    '''Get an example redis user object'''
+    """Get an example redis user object"""
 
     if groups is None:
         groups = [

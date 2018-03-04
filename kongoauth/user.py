@@ -43,7 +43,8 @@ class TransientUser:
                 permissions = group.get('permissions', [])
                 grp = Group(group_name, permissions)
 
-                permission_codes = [permission.get('code') for permission in permissions]
+                permission_codes = [permission.get('code')
+                                    for permission in permissions]
                 user_permissions.update(permission_codes)
 
         user = cls(user_id, groups, user_permissions)

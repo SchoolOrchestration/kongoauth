@@ -11,4 +11,5 @@ def get_redis():
         "host": "redis"
     }
     defualt_connection.update(getattr(settings, 'REDIS_CONN', {}))
-    return redis.Redis(**{"host": "redis"})
+    # return redis.Redis(**{"host": "redis"})
+    return redis.Redis(**defualt_connection)

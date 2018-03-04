@@ -1,5 +1,7 @@
+django_mock_queries
 pytest
 pytest-spec
 ipdb
 ipython
 faker
+mock
