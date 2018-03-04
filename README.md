@@ -42,3 +42,14 @@ REST_FRAMEWORK = {
 docker-compose run --rm web python example/manage.py test
 ```
 
+**Upload to pypi**
+check if you have the correct permissions first then
+install: 
+- twine
+```bash
+# change the version in setup.py then run
+python setup.py sdist
+
+twine upload dist/twine upload dist/django-kongoauth-<version>.tar.gz 
+
+```
