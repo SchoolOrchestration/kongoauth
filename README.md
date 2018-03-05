@@ -1,6 +1,12 @@
 # kongoauth
 A collection of utilities for implementing Kong OAuth with Django Rest Framework
 
+
+## Status
+
+[![PyPI version](https://badge.fury.io/py/django-kongoauth.svg)](https://badge.fury.io/py/django-kongoauth)
+
+
 ## Setting it up in your project:
 
 **Install:**

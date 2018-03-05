@@ -30,8 +30,10 @@ class KongOAuthPermission(permissions.BasePermission):
     @staticmethod
     def check_permissions(request, permission_list, **kwargs):
         if kwargs['action'] in permission_list:
+            if not permission_list[kwargs['action']]:
+                return False
             for permission in permission_list[kwargs['action']]:
                 if request.user.has_perm(permission):
                     return True
-            return False
+                return False
         return True

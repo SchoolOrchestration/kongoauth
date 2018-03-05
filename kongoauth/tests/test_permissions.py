@@ -14,19 +14,19 @@ class KongOAuthPermissionTestCase(TestCase):
         self.example = Example.objects.create(name='example')
         user_permission_data = get_user_data(self.user_id)
         redis.set('authorization.1', user_permission_data)
+        self.headers = {
+            'HTTP_X_AUTHENTICATED_USERID': self.user_id
+        }
 
     def test_get_request_has_permissions(self):
-        response = self.client.get(
-            '/example/',
-            HTTP_X_AUTHENTICATED_USERID=self.user_id
-        )
+        response = self.client.get('/example/', **self.headers)
         self.assertTrue(response.status_code == 200,
                         msg='Valid Permissions Fail')
 
     def test_patch_request_has_no_permissions(self):
         response = self.client.patch(
             '/example/{}/'.format(self.example.id),
-            HTTP_X_AUTHENTICATED_USERID=self.user_id
+            **self.headers
         )
         self.assertTrue(response.status_code == 200,
                         msg='Valid Permissions Fail')
@@ -35,9 +35,9 @@ class KongOAuthPermissionTestCase(TestCase):
         response = self.client.put(
             '/example/{}/'.format(self.example.id),
             data={
-              'name': 'example'
+                'name': 'example'
             },
-            HTTP_X_AUTHENTICATED_USERID=self.user_id
+            **self.headers
         )
         self.assertTrue(response.status_code == 200,
                         msg='Valid Permissions Fail')
@@ -48,7 +48,15 @@ class KongOAuthPermissionTestCase(TestCase):
             data={
                 'name': 'example'
             },
-            HTTP_X_AUTHENTICATED_USERID=self.user_id
+            **self.headers
+        )
+        self.assertTrue(response.status_code == 403,
+                        msg='Invalid Permissions Passes')
+
+    def test_delete_not_allowed(self):
+        response = self.client.delete(
+            '/example/{}/'.format(self.example.id),
+            **self.headers
         )
         self.assertTrue(response.status_code == 403,
                         msg='Invalid Permissions Passes')

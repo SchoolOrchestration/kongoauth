@@ -26,7 +26,8 @@ class ExampleViewSet(viewsets.ModelViewSet):
     queryset = Example.objects.all()
     permission_list = {
         'list': ['all'],
-        'create': ['protected']
+        'create': ['protected'],
+        'destroy': None
     }
 
 

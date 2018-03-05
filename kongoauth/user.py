@@ -34,6 +34,7 @@ class TransientUser:
     def from_redis_data(cls, data):
         user_id = data.get('id', None)
         orgs = data.get('organizations', [])
+        groups = []
 
         user_permissions = set([])
         for org in orgs:
