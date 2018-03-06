@@ -24,8 +24,6 @@ jobs:
           command: coverage run manage.py test
       - run:
           name: Run Coverage
-          command:  |
-              mkdir -p  ~/tmp
-              coverage html -d ~/tmp/
+          command: coverage xml
       - store_test_results:
-          path: ~/tmp/*
+          path: ~/code/coverage.xml
