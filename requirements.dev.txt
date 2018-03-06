@@ -5,3 +5,4 @@ ipdb
 ipython
 faker
 mock
+coverage
