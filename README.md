@@ -4,6 +4,7 @@ A collection of utilities for implementing Kong OAuth with Django Rest Framework
 
 ## Status
 
+[![CircleCI](https://circleci.com/gh/SchoolOrchestration/kongoauth.svg?style=svg)](https://circleci.com/gh/SchoolOrchestration/kongoauth)
 [![PyPI version](https://badge.fury.io/py/django-kongoauth.svg)](https://badge.fury.io/py/django-kongoauth)
 
 
