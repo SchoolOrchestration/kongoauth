@@ -21,33 +21,11 @@ jobs:
           command: sudo  pip install -r requirements.dev.txt
       - run:
           name: Run Tests
-          command: python manage.py test
-  test:
-    docker:
-      - image: circleci/python:3.6.1
-      - image: postgres:9.6
-      - image: redis:alpine
-        environment:
-          POSTGRES_USER: postgres
-          POSTGRES_DB: postgres
-          DB_HOST: localhost
-          PERMISSION_HOST: localhost
-    working_directory: ~/code
-    steps:
-      - checkout
-      - run:
-          name: Install Requirements
-          command: sudo pip install -r requirements.txt
-      - run:
-          name: Install Dev Requirements
-          command: sudo  pip install -r requirements.dev.txt
-      - run:
-          name: Run Tests
           command: coverage run manage.py test
       - run:
           name: Run Coverage
           command:  |
               mkdir -p  ~/tmp
               coverage xml -d ~/tmp/
-      - store_artifacts:
+      - store_test_results:
           path: ~/tmp/coverage.xml
