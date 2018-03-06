@@ -23,7 +23,8 @@ jobs:
           name: Run Tests
           command: python manage.py test
   test:
-    - image: circleci/python:3.6.1
+    docker:
+      - image: circleci/python:3.6.1
       - image: postgres:9.6
       - image: redis:alpine
         environment:
