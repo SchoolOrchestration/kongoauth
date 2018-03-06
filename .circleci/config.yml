@@ -30,3 +30,10 @@ jobs:
           command: coverage xml
       - store_test_results:
           path: ~/code/coverage.xml
+  test:
+    override:
+      - python manage.py test
+    post:
+      - coverage run manage.py test
+      - coverage report
+      - coverage xml
