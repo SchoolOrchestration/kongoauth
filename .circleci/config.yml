@@ -26,6 +26,6 @@ jobs:
           name: Run Coverage
           command:  |
               mkdir -p  ~/tmp
-              coverage xml -d ~/tmp/
+              coverage html -d ~/tmp/
       - store_test_results:
-          path: ~/tmp/coverage.xml
+          path: ~/tmp/
