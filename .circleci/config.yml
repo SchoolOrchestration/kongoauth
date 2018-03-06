@@ -20,8 +20,9 @@ jobs:
       - run:
           name: Install Dev Requirements
           command: sudo  pip install -r requirements.dev.txt
-    test:
-      override:
-        - coverage run manage.py test
-      post:
-        - coverage html -d $CIRCLE_ARTIFACTS
+      - run:
+          name: Run Tests
+          command: coverage run manage.py test
+      - run:
+          name: Upload Coverage
+          command: coverage html -d $CIRCLE_ARTIFACTS
