@@ -5,8 +5,8 @@ services:
   web:
     build: .
     command: python example/manage.py runserver 0.0.0.0:8000
-    ports:
-      - '8000:8000'
+    environment:
+      PERMISSION_HOST: redis
     volumes:
       - .:/code
     links:

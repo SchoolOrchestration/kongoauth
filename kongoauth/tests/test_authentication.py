@@ -12,6 +12,8 @@ from ..user import TransientUser
 from .testutils import get_user_data
 
 import json
+from ..helpers import get_redis
+
 
 class AuthenticationSuccessTestCase(TestCase):
 
@@ -19,8 +21,13 @@ class AuthenticationSuccessTestCase(TestCase):
         self.rf = RequestFactory()
         self.auth = KongOAuthAuthentication()
         self.user_id = 1
-
+        redis = get_redis()
         headers = {
+            'HTTP_X_AUTHENTICATED_USERID': self.user_id
+        }
+        user_permission_data = get_user_data(self.user_id)
+        redis.set('authorization.1', user_permission_data)
+        self.headers = {
             'HTTP_X_AUTHENTICATED_USERID': self.user_id
         }
         request = self.rf.get('/', **headers)

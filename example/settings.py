@@ -121,3 +121,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+PERMISSION_HOST = os.environ.get('PERMISSION_HOST', 'localhost')
+REDIS_CONN = {
+    'host': PERMISSION_HOST
+}

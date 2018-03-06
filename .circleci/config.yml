@@ -2,19 +2,24 @@ version: 2
 jobs:
   build:
     docker:
-      # using custom image, see .circleci/images/primary/Dockerfile
-      - image: circleci/cci-demo-docker-primary:0.0.2
+      - image: circleci/python:3.6.1
+      - image: postgres:9.6
+      - image: redis:alpine
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: postgres
+          DB_HOST: localhost
+          PERMISSION_HOST: localhost
+    working_directory: ~/code
     steps:
       - checkout
-      - run:
-          name: Install Docker Compose
-          command: |
-            curl -L https://github.com/docker/compose/releases/download/1.11.2/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
-            chmod +x ~/docker-compose
-            sudo mv ~/docker-compose /usr/local/bin/docker-compose
       - setup_remote_docker
       - run:
-          name: Start container and verify it's working
-          command: |
-            set -x
-            docker-compose run --rm web python manage.py test
+          name: Install Requirements
+          command: sudo pip install -r requirements.txt
+      - run:
+          name: Install Dev Requirements
+          command: sudo  pip install -r requirements.dev.txt
+      - run:
+          name: Unit Tests
+          command: python manage.py test
