@@ -1,4 +1,6 @@
 django_mock_queries
+django-nose
+nose
 pytest
 pytest-spec
 ipdb

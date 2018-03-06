@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'django_nose',
     'kongoauth',
     'example',
 ]
@@ -126,3 +127,5 @@ PERMISSION_HOST = os.environ.get('PERMISSION_HOST', 'localhost')
 REDIS_CONN = {
     'host': PERMISSION_HOST
 }
+
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'

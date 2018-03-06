@@ -13,7 +13,6 @@ jobs:
     working_directory: ~/code
     steps:
       - checkout
-      - setup_remote_docker
       - run:
           name: Install Requirements
           command: sudo pip install -r requirements.txt
@@ -21,11 +20,26 @@ jobs:
           name: Install Dev Requirements
           command: sudo  pip install -r requirements.dev.txt
       - run:
-          name: Create Test Directory
-          command: mkdir -p $CIRCLE_TEST_REPORTS/django
+          name: Run Tests
+          command: python manage.py test
+  test:
+    - image: circleci/python:3.6.1
+      - image: postgres:9.6
+      - image: redis:alpine
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: postgres
+          DB_HOST: localhost
+          PERMISSION_HOST: localhost
+    working_directory: ~/code
+    steps:
+      - checkout
+      - run:
+          name: Install Requirements
+          command: sudo pip install -r requirements.txt
+      - run:
+          name: Install Dev Requirements
+          command: sudo  pip install -r requirements.dev.txt
       - run:
           name: Run Tests
-          command: coverage run manage.py test
-      - run:
-          name: Upload Coverage
-          command: coverage xml -d $CIRCLE_TEST_REPORTS/django
+          command: python manage.py test
