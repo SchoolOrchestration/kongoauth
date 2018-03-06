@@ -23,6 +23,9 @@ jobs:
           name: Run Tests
           command: coverage run manage.py test
       - run:
+          name: Run Coverage Report
+          command: coverage report
+      - run:
           name: Run Coverage
           command: coverage xml
       - store_test_results:
