@@ -43,4 +43,11 @@ jobs:
           command: sudo  pip install -r requirements.dev.txt
       - run:
           name: Run Tests
-          command: python manage.py test
+          command: coverage run manage.py test
+      - run:
+          name: Run Coverage
+          command:  |
+              mkdir -p  ~/tmp
+              coverage xml -d ~/tmp/
+      - store_artifacts:
+          path: ~/tmp/coverage.xml
