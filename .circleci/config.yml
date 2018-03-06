@@ -21,8 +21,11 @@ jobs:
           name: Install Dev Requirements
           command: sudo  pip install -r requirements.dev.txt
       - run:
+          name: Create Test Directory
+          command: mkdir -p $CIRCLE_TEST_REPORTS/django
+      - run:
           name: Run Tests
           command: coverage run manage.py test
       - run:
           name: Upload Coverage
-          command: coverage html -d $CIRCLE_ARTIFACTS
+          command: coverage xml -d $CIRCLE_TEST_REPORTS/django
