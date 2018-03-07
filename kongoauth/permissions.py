@@ -19,7 +19,7 @@ class KongOAuthPermission(permissions.BasePermission):
             'get': 'list',
             'post': 'create',
             'put': 'update',
-            'patch': 'update',
+            'patch': 'partial_update',
             'delete': 'destroy'
         }
         return self.check_permissions(
