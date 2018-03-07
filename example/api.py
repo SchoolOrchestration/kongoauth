@@ -25,7 +25,7 @@ class ExampleViewSet(viewsets.ModelViewSet):
     serializer_class = ExampleSerializer
     queryset = Example.objects.all()
     permission_list = {
-        'list': ['all'],
+        'list': ['not', 'all'],
         'create': ['protected'],
         'destroy': None
     }
