@@ -1,11 +1,9 @@
 from kongoauth.authentication import KongOAuthAuthentication
-from kongoauth.permissions import KongOAuthPermission, kong_permission_required
-from django.http import JsonResponse
+from kongoauth.permissions import KongOAuthPermission
 from rest_framework import routers
 from django.db import models
 from rest_framework import (
     serializers,
-    decorators,
     viewsets
 )
 
@@ -40,10 +38,3 @@ router.register(
     viewset=ExampleViewSet,
     base_name='example'
 )
-
-
-@decorators.api_view(['GET'])
-@kong_permission_required(('not',), raise_exception=True)
-@decorators.authentication_classes((KongOAuthAuthentication,))
-def fbv_example(request):
-    return JsonResponse({}, status=200)
