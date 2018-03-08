@@ -23,13 +23,13 @@ class KongOAuthPermissionTestCase(TestCase):
         self.assertTrue(response.status_code == 200,
                         msg='Valid Permissions Fail')
 
-    def test_patch_request_has_no_permissions(self):
+    def test_patch_request_has_permissions(self):
         response = self.client.patch(
             '/example/{}/'.format(self.example.id),
             **self.headers
         )
-        self.assertTrue(response.status_code == 200,
-                        msg='Valid Permissions Fail')
+        self.assertTrue(response.status_code == 403,
+                        msg='Patch has no permissions')
 
     def test_put_request_has_no_permissions(self):
         response = self.client.put(

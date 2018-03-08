@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, re_path, include
-from .api import router
+from .api import router, fbv_example
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    re_path('^fbv/', fbv_example),
     re_path('^', include(router.urls))
 ]

@@ -128,4 +128,4 @@ REDIS_CONN = {
     'host': PERMISSION_HOST
 }
 
-TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+# TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
