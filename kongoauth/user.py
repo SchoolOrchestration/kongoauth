@@ -25,9 +25,10 @@ class TransientUser:
     groups = []
     user_permissions = []
 
-    def __init__(self, id, groups, permissions):
+    def __init__(self, id, groups, orgs, permissions):
         self.id = id
         self.groups = groups
+        self.organizations = orgs
         self.user_permissions = permissions
 
     @classmethod
@@ -37,8 +38,10 @@ class TransientUser:
         groups = []
 
         user_permissions = set([])
+        org_list = []
         for org in orgs:
             groups = org.get('groups', [])
+            org_list.append({'name': org['name'], 'id': org['id']})
             for group in groups:
                 group_name = group.get('name')
                 permissions = group.get('permissions', [])
@@ -48,7 +51,7 @@ class TransientUser:
                                     for permission in permissions]
                 user_permissions.update(permission_codes)
 
-        user = cls(user_id, groups, user_permissions)
+        user = cls(user_id, groups, org_list, user_permissions)
         return user
 
     def get_group_permissions(self, obj=None):
