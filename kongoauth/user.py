@@ -25,8 +25,9 @@ class TransientUser:
     groups = []
     user_permissions = []
 
-    def __init__(self, id, groups, orgs, permissions):
+    def __init__(self, id, groups, username, orgs, permissions):
         self.id = id
+        self.username = username
         self.groups = groups
         self.organizations = orgs
         self.user_permissions = permissions
@@ -34,6 +35,8 @@ class TransientUser:
     @classmethod
     def from_redis_data(cls, data):
         user_id = data.get('id', None)
+        username = data.get('username', None)
+
         orgs = data.get('organizations', [])
         groups = []
 
@@ -51,7 +54,7 @@ class TransientUser:
                                     for permission in permissions]
                 user_permissions.update(permission_codes)
 
-        user = cls(user_id, groups, org_list, user_permissions)
+        user = cls(user_id, groups, username, org_list, user_permissions)
         return user
 
     def get_group_permissions(self, obj=None):

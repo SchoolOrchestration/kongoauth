@@ -14,6 +14,10 @@ class KongOAuthAuthentication(authentication.BaseAuthentication):
         note: this may need to be X_ (not HTTP_X_..) in real life:
         """
         anonymous = request.META.get("HTTP_X_ANONYMOUS_CONSUMER", None)
+        apikey = request.META.get("HTTP_APIKEY", None)
+        if apikey:
+            user = self.get_user(apikey)
+            return user, None
         if not anonymous:
             user_id = request.META.get("HTTP_X_AUTHENTICATED_USERID", None)
             user = self.get_user(user_id)

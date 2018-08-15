@@ -36,5 +36,6 @@ def get_user_data(user_id, orgs = None, groups = None):
 
     return json.dumps({
         'id': user_id,
+        'username': 'test.user',
         'organizations': orgs
     })
