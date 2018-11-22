@@ -24,7 +24,7 @@ class KongOAuthPermission(permissions.BasePermission):
         }
         return self.check_permissions(
             request, view.permission_list,
-            action=method_mapper[request.method.lower()]
+            action=method_mapper.get(request.method.lower())
         )
 
     @staticmethod
