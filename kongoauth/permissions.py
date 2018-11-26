@@ -29,13 +29,13 @@ class KongOAuthPermission(permissions.BasePermission):
 
     @staticmethod
     def check_permissions(request, permission_list, **kwargs):
-        if getattr(request.user, 'is_staff', False):
-            return True
         if kwargs.get('action') in permission_list:
             if not permission_list[kwargs.get('action')]:
                 return False
             for permission in permission_list[kwargs.get('action')]:
                 if request.user.has_perm(permission):
                     return True
+            if getattr(request.user, 'is_staff', False):
+                return True
             return False
         return True
