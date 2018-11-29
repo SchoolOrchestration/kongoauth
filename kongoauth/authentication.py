@@ -13,17 +13,15 @@ class KongOAuthAuthentication(authentication.BaseAuthentication):
         Uses Kong's OAuth headers to create a a 'Transit' User
         note: this may need to be X_ (not HTTP_X_..) in real life:
         """
-        anonymous = request.META.get("HTTP_X_ANONYMOUS_CONSUMER", None)
+        user_id = request.META.get("HTTP_X_AUTHENTICATED_USERID", None)
         apikey = request.META.get("HTTP_APIKEY", None)
         if apikey:
             user = self.get_user(apikey)
             return user, None
-        if not anonymous:
-            user_id = request.META.get("HTTP_X_AUTHENTICATED_USERID", None)
-            user = self.get_user(user_id)
+        user = self.get_user(user_id)
+        if user_id is not None and user is not None:
             return user, None
-        else:
-            return AnonymousUser(), False
+        return AnonymousUser(), False
 
     @staticmethod
     def get_user(user_id):
@@ -34,8 +32,9 @@ class KongOAuthAuthentication(authentication.BaseAuthentication):
                             'authorization.{}').format(user_id)
         redis = get_redis()
         user_data = redis.get(redis_key)
-        user_data = json.loads(user_data)
-        return TransientUser.from_redis_data(user_data)
+        if user_data is not None:
+            user_data = json.loads(user_data)
+            return TransientUser.from_redis_data(user_data)
 
 
 class KongKeyAuthAuthentication(authentication.BaseAuthentication):
