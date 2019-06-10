@@ -10,7 +10,6 @@ import json
 
 
 class UserTestCase(TestCase):
-
     def setUp(self):
         self.user_id = 1
         data = json.loads(get_user_data(self.user_id))
@@ -29,20 +28,29 @@ class UserTestCase(TestCase):
         pass
 
     def test_it_can_verify_user_has_permission(self):
-        assert self.user.has_perm('all') == True,\
-            'Expected the user to have the all permission'
+        assert (
+            self.user.has_perm("all") == True
+        ), "Expected the user to have the all permission"
 
     def test_it_can_verify_user_does_not_have_permission(self):
-        assert self.user.has_perm('illegal-permission') == False,\
-            'Expected the user not to have the foo permission'
+        assert (
+            self.user.has_perm("illegal-permission") == False
+        ), "Expected the user not to have the foo permission"
 
     def test_has_permissions(self):
 
         tests = [
             # input, expected result
-            (['foo','bar','baz'], True), # user has more permissions than list provided
-            (['not a permission','bar','baz'], False), # user has some permission, but is missing some
+            (
+                ["foo", "bar", "baz"],
+                True,
+            ),  # user has more permissions than list provided
+            (
+                ["not a permission", "bar", "baz"],
+                False,
+            ),  # user has some permission, but is missing some
         ]
         for test_input, expected_result in tests:
-            assert self.user.has_perms(test_input) == expected_result,\
-                'Expected: {} to be: {}'.format(test_input, expected_result)
+            assert (
+                self.user.has_perms(test_input) == expected_result
+            ), "Expected: {} to be: {}".format(test_input, expected_result)

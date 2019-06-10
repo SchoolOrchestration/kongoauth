@@ -16,26 +16,27 @@ class KongOAuthPermission(permissions.BasePermission):
 
     def has_permission(self, request, view):
         method_mapper = {
-            'get': 'list',
-            'post': 'create',
-            'put': 'update',
-            'patch': 'partial_update',
-            'delete': 'destroy'
+            "get": "list",
+            "post": "create",
+            "put": "update",
+            "patch": "partial_update",
+            "delete": "destroy",
         }
         return self.check_permissions(
-            request, view.permission_list,
-            action=method_mapper.get(request.method.lower())
+            request,
+            view.permission_list,
+            action=method_mapper.get(request.method.lower()),
         )
 
     @staticmethod
     def check_permissions(request, permission_list, **kwargs):
-        if kwargs.get('action') in permission_list:
-            if not permission_list[kwargs.get('action')]:
+        if kwargs.get("action") in permission_list:
+            if not permission_list[kwargs.get("action")]:
                 return False
-            for permission in permission_list[kwargs.get('action')]:
+            for permission in permission_list[kwargs.get("action")]:
                 if request.user.has_perm(permission):
                     return True
-            if getattr(request.user, 'is_staff', False):
+            if getattr(request.user, "is_staff", False):
                 return True
             return False
         return True
