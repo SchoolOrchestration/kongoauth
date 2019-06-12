@@ -7,7 +7,6 @@ import json
 
 
 class KongOAuthAuthentication(authentication.BaseAuthentication):
-
     def authenticate(self, request):
         """
         Uses Kong's OAuth headers to create a a 'Transit' User
@@ -21,15 +20,16 @@ class KongOAuthAuthentication(authentication.BaseAuthentication):
         user = self.get_user(user_id)
         if user_id is not None and user is not None:
             return user, None
-        return AnonymousUser(), False
+        return None, False
 
     @staticmethod
     def get_user(user_id):
         """
         Gets User information from a permission redis instance
         """
-        redis_key = getattr(settings, 'AUTH_REDIS_KEY',
-                            'authorization.{}').format(user_id)
+        redis_key = getattr(settings, "AUTH_REDIS_KEY", "authorization.{}").format(
+            user_id
+        )
         redis = get_redis()
         user_data = redis.get(redis_key)
         if user_data is not None:
@@ -38,6 +38,5 @@ class KongOAuthAuthentication(authentication.BaseAuthentication):
 
 
 class KongKeyAuthAuthentication(authentication.BaseAuthentication):
-
     def authenticate(self, request):
         pass

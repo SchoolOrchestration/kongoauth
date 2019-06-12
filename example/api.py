@@ -2,10 +2,7 @@ from kongoauth.authentication import KongOAuthAuthentication
 from kongoauth.permissions import KongOAuthPermission
 from rest_framework import routers
 from django.db import models
-from rest_framework import (
-    serializers,
-    viewsets
-)
+from rest_framework import serializers, viewsets
 
 
 class Example(models.Model):
@@ -13,10 +10,9 @@ class Example(models.Model):
 
 
 class ExampleSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Example
-        fields = '__all__'
+        fields = "__all__"
 
 
 class ExampleViewSet(viewsets.ModelViewSet):
@@ -25,16 +21,12 @@ class ExampleViewSet(viewsets.ModelViewSet):
     serializer_class = ExampleSerializer
     queryset = Example.objects.all()
     permission_list = {
-        'list': ['not', 'all'],
-        'create': ['protected'],
-        'partial_update': ['not'],
-        'destroy': None
+        "list": ["not", "all"],
+        "create": ["protected"],
+        "partial_update": ["not"],
+        "destroy": None,
     }
 
 
 router = routers.DefaultRouter()
-router.register(
-    prefix=r'example',
-    viewset=ExampleViewSet,
-    base_name='example'
-)
+router.register(prefix=r"example", viewset=ExampleViewSet, base_name="example")
