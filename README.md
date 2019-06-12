@@ -46,7 +46,7 @@ REST_FRAMEWORK = {
 ## Run the tests
 
 ```
-docker-compose run --rm web python example/manage.py test
+docker-compose run --rm web python manage.py test
 ```
 
 **Upload to pypi**
